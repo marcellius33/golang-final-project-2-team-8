@@ -21,7 +21,7 @@ type CreatePhotoResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func ParseToCreatePhotoResponse(photo models.Photo) CreatePhotoResponse {
+func ParseToCreatePhotoResponse(photo *models.Photo) CreatePhotoResponse {
 	return CreatePhotoResponse{
 		ID:        photo.ID,
 		Title:     photo.Title,
@@ -41,7 +41,7 @@ type UpdatePhotoResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func ParseToUpdatePhotoResponse(photo models.Photo) UpdatePhotoResponse {
+func ParseToUpdatePhotoResponse(photo *models.Photo) UpdatePhotoResponse {
 	return UpdatePhotoResponse{
 		ID:        photo.ID,
 		Title:     photo.Title,
@@ -64,6 +64,14 @@ type GetPhotoResponse struct {
 		Email    string `json:"email"`
 		Username string `json:"username"`
 	}
+}
+
+func ParseToGetPhotosResponse(photos []models.Photo, u models.User) []GetPhotoResponse {
+	var responses []GetPhotoResponse
+	for _, photo := range photos {
+		responses = append(responses, ParseToGetPhotoResponse(photo, u))
+	}
+	return responses
 }
 
 func ParseToGetPhotoResponse(p models.Photo, u models.User) GetPhotoResponse {

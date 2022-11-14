@@ -26,10 +26,10 @@ func main() {
 	userController := controllers.NewUserController(userService)
 	routers.InitUserRoutes(Routes, userController)
 
-	// photoRepository := repositories.NewPhotoRepository(database.GetDB())
-	// photoService := services.NewPhotoService(photoRepository, userRepository)
-	// photoController := controllers.NewPhotoController(photoService)
-	// routers.InitPhotoRoutes(Routes, photoController)
+	photoRepository := repositories.NewPhotoRepository(database.GetDB())
+	photoService := services.NewPhotoService(photoRepository, userRepository)
+	photoController := controllers.NewPhotoController(photoService)
+	routers.InitPhotoRoutes(Routes, photoController)
 
 	// commentRepository := repositories.NewCommentRepository(database.GetDB())
 	// commentService := services.NewCommentService(commentRepository, userRepository)

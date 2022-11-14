@@ -11,12 +11,12 @@ import (
 )
 
 func UserAuthorization() gin.HandlerFunc {
-	return func (c *gin.Context){
+	return func(c *gin.Context) {
 		db := database.GetDB()
 		userIdParam, err := strconv.Atoi(c.Param("userId"))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Bad request",
+				"error":   "Bad request",
 				"message": "invalid param",
 			})
 			return
@@ -29,30 +29,30 @@ func UserAuthorization() gin.HandlerFunc {
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-				"error": "Not found",
-				"message" : "data not exist",
+				"error":   "Not found",
+				"message": "data not exist",
 			})
 			return
 		}
 
 		if User.ID != userID {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error" : "Unauthorized",
-				"message" : "you are not authorized to access this data",
+				"error":   "Unauthorized",
+				"message": "you are not authorized to access this data",
 			})
 			return
 		}
-		c.Next()	
+		c.Next()
 	}
 }
 
 func PhotoAuthorization() gin.HandlerFunc {
-	return func (c *gin.Context){
+	return func(c *gin.Context) {
 		db := database.GetDB()
 		photoID, err := strconv.Atoi(c.Param("photoId"))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Bad request",
+				"error":   "Bad request",
 				"message": "invalid param",
 			})
 			return
@@ -65,30 +65,30 @@ func PhotoAuthorization() gin.HandlerFunc {
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-				"error": "Not found",
-				"message" : "data not exist",
+				"error":   "Not found",
+				"message": "data not exist",
 			})
 			return
 		}
 
 		if Photo.UserID != userID {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error" : "Unauthorized",
-				"message" : "you are not authorized to access this data",
+				"error":   "Unauthorized",
+				"message": "you are not authorized to access this data",
 			})
 			return
 		}
-		c.Next()	
+		c.Next()
 	}
 }
 
 func CommentAuthorization() gin.HandlerFunc {
-	return func (c *gin.Context){
+	return func(c *gin.Context) {
 		db := database.GetDB()
 		commentID, err := strconv.Atoi(c.Param("commentId"))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Bad request",
+				"error":   "Bad request",
 				"message": "invalid param",
 			})
 			return
@@ -101,30 +101,30 @@ func CommentAuthorization() gin.HandlerFunc {
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-				"error": "Not found",
-				"message" : "data not exist",
+				"error":   "Not found",
+				"message": "data not exist",
 			})
 			return
 		}
 
 		if Comment.UserID != userID {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error" : "Unauthorized",
-				"message" : "you are not authorized to access this data",
+				"error":   "Unauthorized",
+				"message": "you are not authorized to access this data",
 			})
 			return
 		}
-		c.Next()	
+		c.Next()
 	}
 }
 
 func SocialMediaAuthorization() gin.HandlerFunc {
-	return func (c *gin.Context){
+	return func(c *gin.Context) {
 		db := database.GetDB()
 		socialID, err := strconv.Atoi(c.Param("socialMediaId"))
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"error": "Bad request",
+				"error":   "Bad request",
 				"message": "invalid param",
 			})
 			return
@@ -137,19 +137,19 @@ func SocialMediaAuthorization() gin.HandlerFunc {
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
-				"error": "Not found",
-				"message" : "data not exist",
+				"error":   "Not found",
+				"message": "data not exist",
 			})
 			return
 		}
 
 		if Social.UserID != userID {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
-				"error" : "Unauthorized",
-				"message" : "you are not authorized to access this data",
+				"error":   "Unauthorized",
+				"message": "you are not authorized to access this data",
 			})
 			return
 		}
-		c.Next()	
+		c.Next()
 	}
 }
