@@ -36,10 +36,10 @@ func main() {
 	commentController := controllers.NewCommentController(commentService)
 	routers.InitCommentRoutes(Routes, commentController)
 
-	// socmedRepository := repositories.NewSocmedRepository(database.GetDB())
-	// socmedService := services.NewSocmedService(socmedRepository, userRepository)
-	// socmedController := controllers.NewSocialMediaController(socmedService)
-	// routers.InitSocmedRouter(Routes, socmedController)
+	socmedRepository := repositories.NewSocialMediaRepository(database.GetDB())
+	socmedService := services.NewSocialMediaService(socmedRepository, userRepository)
+	socmedController := controllers.NewSocialMediaController(socmedService)
+	routers.InitSocmedRouter(Routes, socmedController)
 
 	Routes.Run(os.Getenv("SERVER_PORT"))
 }

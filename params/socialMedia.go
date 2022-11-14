@@ -19,7 +19,7 @@ type AddSocialMediaResponse struct {
 	CreatedAt      time.Time `json:"created_at"`
 }
 
-func ParseToAddSocialMediaResponse(socmed models.SocialMedia) AddSocialMediaResponse {
+func ParseToAddSocialMediaResponse(socmed *models.SocialMedia) AddSocialMediaResponse {
 	return AddSocialMediaResponse{
 		ID:             int(socmed.ID),
 		Name:           socmed.Name,
@@ -37,7 +37,7 @@ type UpdateSocialMediaResponse struct {
 	UpdatedAt      time.Time `json:"updated_at"`
 }
 
-func ParseToUpdateSocialMediaResponse(socmed models.SocialMedia) UpdateSocialMediaResponse {
+func ParseToUpdateSocialMediaResponse(socmed *models.SocialMedia) UpdateSocialMediaResponse {
 	return UpdateSocialMediaResponse{
 		ID:             int(socmed.ID),
 		Name:           socmed.Name,
@@ -47,7 +47,7 @@ func ParseToUpdateSocialMediaResponse(socmed models.SocialMedia) UpdateSocialMed
 	}
 }
 
-type GetSocmedResponse struct {
+type GetSocialMediaResponse struct {
 	ID             int       `json:"id"`
 	Name           string    `json:"name"`
 	SocialMediaURL string    `json:"social_media_url"`
@@ -55,14 +55,22 @@ type GetSocmedResponse struct {
 	CreatedAt      time.Time `json:"created_at"`
 	UpdatedAt      time.Time `json:"updated_at"`
 	User           struct {
-		ID       int    `json:"id"`
-		Username string `json:"username"`
-		Email    string `json:"email"`
+		ID              int    `json:"id"`
+		Username        string `json:"username"`
+		ProfileImageUrl string `json:"profile_image_url"`
 	}
 }
 
-func ParseToGetSocmedResponse(socmed models.SocialMedia, user models.User) GetSocmedResponse {
-	return GetSocmedResponse{
+func ParseToGetSocialMediasResponse(socialMedias []models.SocialMedia, user models.User) []GetSocialMediaResponse {
+	var responses []GetSocialMediaResponse
+	for _, socialMedia := range socialMedias {
+		responses = append(responses, ParseToGetSocialMediaResponse(socialMedia, user))
+	}
+	return responses
+}
+
+func ParseToGetSocialMediaResponse(socmed models.SocialMedia, user models.User) GetSocialMediaResponse {
+	return GetSocialMediaResponse{
 		ID:             int(socmed.ID),
 		Name:           socmed.Name,
 		SocialMediaURL: socmed.SocialMediaURL,
@@ -70,13 +78,13 @@ func ParseToGetSocmedResponse(socmed models.SocialMedia, user models.User) GetSo
 		CreatedAt:      socmed.CreatedAt,
 		UpdatedAt:      socmed.UpdatedAt,
 		User: struct {
-			ID       int    `json:"id"`
-			Username string `json:"username"`
-			Email    string `json:"email"`
+			ID              int    `json:"id"`
+			Username        string `json:"username"`
+			ProfileImageUrl string `json:"profile_image_url"`
 		}{
-			ID:       int(user.ID),
-			Username: user.Username,
-			Email:    user.Email,
+			ID:              int(user.ID),
+			Username:        user.Username,
+			ProfileImageUrl: socmed.SocialMediaURL,
 		},
 	}
 }
