@@ -31,10 +31,10 @@ func main() {
 	photoController := controllers.NewPhotoController(photoService)
 	routers.InitPhotoRoutes(Routes, photoController)
 
-	// commentRepository := repositories.NewCommentRepository(database.GetDB())
-	// commentService := services.NewCommentService(commentRepository, userRepository)
-	// commentController := controllers.NewCommentController(commentService)
-	// routers.InitCommentRoutes(Routes, commentController)
+	commentRepository := repositories.NewCommentRepository(database.GetDB())
+	commentService := services.NewCommentService(commentRepository, userRepository)
+	commentController := controllers.NewCommentController(commentService)
+	routers.InitCommentRoutes(Routes, commentController)
 
 	// socmedRepository := repositories.NewSocmedRepository(database.GetDB())
 	// socmedService := services.NewSocmedService(socmedRepository, userRepository)

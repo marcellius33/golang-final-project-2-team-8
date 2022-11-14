@@ -19,7 +19,7 @@ type CreateCommentResponse struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func ParseToCreateCommentResponse(comment models.Comment) CreateCommentResponse {
+func ParseToCreateCommentResponse(comment *models.Comment) CreateCommentResponse {
 	return CreateCommentResponse{
 		ID:        comment.ID,
 		Message:   comment.Message,
@@ -41,7 +41,7 @@ type UpdateCommentResponse struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func ParseToUpdateCommentResponse(comment models.Comment) UpdateCommentResponse {
+func ParseToUpdateCommentResponse(comment *models.Comment) UpdateCommentResponse {
 	return UpdateCommentResponse{
 		ID:        comment.ID,
 		Message:   comment.Message,
@@ -63,6 +63,21 @@ type GetCommentResponse struct {
 		Email    string `json:"email"`
 		Username string `json:"username"`
 	}
+	Photo struct {
+		ID       uint   `json:"id"`
+		Title    string `json:"title"`
+		Caption  string `json:"caption"`
+		PhotoURL string `json:"photo_url"`
+		UserID   uint   `json:"user_id"`
+	}
+}
+
+func ParseToGetCommentsResponse(comments []models.Comment, user models.User) []GetCommentResponse {
+	var responses []GetCommentResponse
+	for _, comment := range comments {
+		responses = append(responses, ParseToGetCommentResponse(comment, user))
+	}
+	return responses
 }
 
 func ParseToGetCommentResponse(comment models.Comment, user models.User) GetCommentResponse {
@@ -82,5 +97,18 @@ func ParseToGetCommentResponse(comment models.Comment, user models.User) GetComm
 			Email:    user.Email,
 			Username: user.Username,
 		},
+		Photo: struct {
+			ID       uint   `json:"id"`
+			Title    string `json:"title"`
+			Caption  string `json:"caption"`
+			PhotoURL string `json:"photo_url"`
+			UserID   uint   `json:"user_id"`
+		}(struct {
+			ID       uint
+			Title    string
+			Caption  string
+			PhotoURL string
+			UserID   uint
+		}{ID: comment.Photo.ID, Title: comment.Photo.Title, Caption: comment.Photo.Caption, PhotoURL: comment.Photo.PhotoURL, UserID: user.ID}),
 	}
 }
