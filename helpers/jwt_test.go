@@ -32,7 +32,6 @@ func TestFailedGenerateToken(t *testing.T) {
 	claims := jwt.MapClaims{
 		"id":       user.ID,
 		"email":    user.Email,
-		"username": user.Username,
 	}
 
 	parseToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
